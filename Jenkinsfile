@@ -1,4 +1,4 @@
-node('haimaxy-jnlp') {
+node('jnlp') {
     stage('Prepare') {
         echo "1.Prepare Stage"
         checkout scm
@@ -14,7 +14,7 @@ node('haimaxy-jnlp') {
     }
     stage('Build') {
         echo "3.Build Docker Image Stage"
-        sh "docker build -t cnych/jenkins-demo:${build_tag} ."
+        sh "docker build -t qing123/jenkins-demo:${build_tag} ."
     }
     stage('Push') {
         echo "4.Push Docker Image Stage"
@@ -29,7 +29,6 @@ node('haimaxy-jnlp') {
             input "确认要部署线上环境吗？"
         }
         sh "sed -i 's/<BUILD_TAG>/${build_tag}/' k8s.yaml"
-        sh "sed -i 's/<BRANCH_NAME>/${env.BRANCH_NAME}/' k8s.yaml"
         sh "kubectl apply -f k8s.yaml --record"
     }
 }
